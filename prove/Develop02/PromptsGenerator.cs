@@ -1,3 +1,6 @@
+/*I decided to make PromptGenerator sepate to make easier to add
+or change any questions to generate*/
+
 public class PromptsGenerator
     {
         private List<string> prompts;
