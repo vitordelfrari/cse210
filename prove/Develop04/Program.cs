@@ -8,6 +8,7 @@ class Program
     {
         Console.WriteLine("Welcome to the Activity Program!");
 
+        //For the assignment, I included an option to show how many times each activity was displayed and used.
         while (true)
         {
             Console.WriteLine("\nChoose an activity:");
