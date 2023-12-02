@@ -1,0 +1,4 @@
+SimpleGoal,SimpleGoal
+EternalGoal,EternalGoal
+ChecklistGoal,ChecklistGoal,1,3,100
+NegativeGoal,NegativeGoal

@@ -1,0 +1,5 @@
+SimpleGoal,run a matathon,50,[ ]
+EternalGoal,escripture study,50,
+ChecklistGoal,take bath,10,Completed 0/7 times
+0,7,100
+NegativeGoal,dont brush teath,-30,Negative goal, points deducted for bad habits.
