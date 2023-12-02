@@ -1,22 +1,29 @@
 public class ChecklistGoal : Goal
 {
     public int TargetCount { get; private set; }
+    public int BonusPoints { get; private set; }
     public int CompletedCount { get; private set; }
 
-    public ChecklistGoal(string name, int value, int targetCount) : base(name, value)
+    public ChecklistGoal(string name, int value, int completedCount, int targetCount, int bonusPoints)
+        : base(name, value)
     {
+        CompletedCount = completedCount;
         TargetCount = targetCount;
-        CompletedCount = 0;
+        BonusPoints = bonusPoints;
     }
 
     public override void RecordEvent()
     {
         CompletedCount++;
-        Console.WriteLine($"You've made progress on the {Name} goal. Current count: {CompletedCount}/{TargetCount}.");
-        
-        if (CompletedCount == TargetCount)
+
+        if (CompletedCount < TargetCount)
         {
             Console.WriteLine($"Congratulations! You completed the {Name} goal and gained {Value} points.");
+        }
+        else
+        {
+            int totalPoints = Value * TargetCount + BonusPoints;
+            Console.WriteLine($"Congratulations! You completed the {Name} goal {TargetCount} times and gained {totalPoints} points, including a bonus of {BonusPoints} points.");
         }
     }
 

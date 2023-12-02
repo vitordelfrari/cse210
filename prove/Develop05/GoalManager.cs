@@ -29,10 +29,18 @@ public class GoalManager
         if (index >= 0 && index < goals.Count)
         {
             Goal currentGoal = goals[index];
-            Console.WriteLine($"You recorded the {currentGoal.Name} goal and gained {currentGoal.GetValue()} points.");
-            currentGoal.RecordEvent();
-            points += currentGoal.GetValue();
-            Console.WriteLine($"Total points: {points}");
+
+            if (currentGoal != null)
+            {
+                Console.WriteLine($"You recorded the {currentGoal.Name} goal and gained {currentGoal.GetValue()} points.");
+                currentGoal.RecordEvent();
+                points += currentGoal.GetValue();
+                Console.WriteLine($"Total points: {points}");
+            }
+            else
+            {
+                Console.WriteLine("Invalid goal reference.");
+            }
         }
         else
         {
@@ -77,8 +85,15 @@ public class GoalManager
             {
                 foreach (Goal goal in goals)
                 {
-                    // Use the GetValue method to access the protected Value field
-                    writer.WriteLine($"{goal.GetType().Name},{goal.Name},{goal.GetValue()},{goal.GetProgress()}");
+                    if (goal != null)
+                    {
+                        writer.WriteLine($"{goal.GetType().Name},{goal.Name},{goal.GetValue()},{goal.GetProgress()}");
+
+                        if (goal is ChecklistGoal checklistGoal)
+                        {
+                            writer.WriteLine($"{checklistGoal.CompletedCount},{checklistGoal.TargetCount},{checklistGoal.BonusPoints}");
+                        }
+                    }
                 }
             }
 
@@ -117,9 +132,21 @@ public class GoalManager
                             case nameof(EternalGoal):
                                 goals.Add(new EternalGoal(name, value));
                                 break;
+                            case nameof(NegativeGoal):
+                                goals.Add(new NegativeGoal(name, value));
+                                break;
                             case nameof(ChecklistGoal):
-                                int targetCount = int.Parse(components[3]);
-                                goals.Add(new ChecklistGoal(name, value, targetCount));
+                                if (components.Length >= 7)
+                                {
+                                    int completedCount = int.Parse(components[3]);
+                                    int targetCount = int.Parse(components[4]);
+                                    int bonusPoints = int.Parse(components[5]);
+                                    goals.Add(new ChecklistGoal(name, value, completedCount, targetCount, bonusPoints));
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Missing data for {nameof(ChecklistGoal)}. Skipping. Components: {string.Join(",", components)}");
+                                }
                                 break;
                             default:
                                 Console.WriteLine($"Unknown goal type: {type}. Skipping.");

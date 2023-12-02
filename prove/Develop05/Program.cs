@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 
 class Program
 {
@@ -11,7 +9,7 @@ class Program
         int choice;
         do
         {
-            goalManager.DisplayPoints(); // Display points before showing the menu
+            goalManager.DisplayPoints();
 
             Console.WriteLine("\nMenu:");
             Console.WriteLine("1. Create new goal");
@@ -67,48 +65,114 @@ class Program
         Console.WriteLine("1. Simple Goal");
         Console.WriteLine("2. Eternal Goal");
         Console.WriteLine("3. Checklist Goal");
+        Console.WriteLine("4. Negative Goal"); //negative goal
         Console.Write("Enter your choice: ");
 
         if (int.TryParse(Console.ReadLine(), out int goalTypeChoice))
         {
-            Console.Write("Enter the goal name: ");
-            string goalName = Console.ReadLine();
-
-            Console.Write("Enter the goal points: ");
-            if (int.TryParse(Console.ReadLine(), out int goalValue))
+            switch (goalTypeChoice)
             {
-                switch (goalTypeChoice)
-                {
-                    case 1:
-                        goalManager.AddGoal(new SimpleGoal(goalName, goalValue));
-                        break;
-                    case 2:
-                        goalManager.AddGoal(new EternalGoal(goalName, goalValue));
-                        break;
-                    case 3:
-                        Console.Write("How many times this goal need to be complete? ");
-                        if (int.TryParse(Console.ReadLine(), out int targetCount))
-                        {
-                            goalManager.AddGoal(new ChecklistGoal(goalName, goalValue, targetCount));
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input for target count. Checklist goal not added.");
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("Invalid goal type choice. Goal not added.");
-                        break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid input for goal value. Goal not added.");
+                case 1:
+                    CreateSimpleGoal(goalManager);
+                    break;
+                case 2:
+                    CreateEternalGoal(goalManager);
+                    break;
+                case 3:
+                    CreateChecklistGoal(goalManager);
+                    break;
+                case 4:
+                    CreateNegativeGoal(goalManager);
+                    break;
+                default:
+                    Console.WriteLine("Invalid goal type choice. Goal not added.");
+                    break;
             }
         }
         else
         {
             Console.WriteLine("Invalid input for goal type choice. Goal not added.");
+        }
+    }
+
+    static void CreateSimpleGoal(GoalManager goalManager)
+    {
+        Console.Write("Enter the goal name: ");
+        string goalName = Console.ReadLine();
+
+        Console.Write("Enter the goal points: ");
+        if (int.TryParse(Console.ReadLine(), out int goalValue))
+        {
+            goalManager.AddGoal(new SimpleGoal(goalName, goalValue));
+        }
+        else
+        {
+            Console.WriteLine("Invalid input for goal value. Goal not added.");
+        }
+    }
+
+    static void CreateEternalGoal(GoalManager goalManager)
+    {
+        Console.Write("Enter the goal name: ");
+        string goalName = Console.ReadLine();
+
+        Console.Write("Enter the points for each time the goal is recorded: ");
+        if (int.TryParse(Console.ReadLine(), out int goalValue))
+        {
+            goalManager.AddGoal(new EternalGoal(goalName, goalValue));
+        }
+        else
+        {
+            Console.WriteLine("Invalid input for goal value. Goal not added.");
+        }
+    }
+
+    static void CreateChecklistGoal(GoalManager goalManager)
+    {
+        Console.Write("Enter the goal name: ");
+        string goalName = Console.ReadLine();
+
+        Console.Write("Enter the points for each time the goal is recorded: ");
+        if (int.TryParse(Console.ReadLine(), out int goalValue))
+        {
+            Console.Write("How many times does this goal need to be completed? ");
+            if (int.TryParse(Console.ReadLine(), out int targetCount))
+            {
+                Console.Write("Enter the bonus points for completing the goal: ");
+                if (int.TryParse(Console.ReadLine(), out int bonusPoints))
+                {
+                    goalManager.AddGoal(new ChecklistGoal(goalName, goalValue, 0, targetCount, bonusPoints));
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input for bonus points. Checklist goal not added.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input for target count. Checklist goal not added.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input for goal value. Checklist goal not added.");
+        }
+    }
+
+
+    static void CreateNegativeGoal(GoalManager goalManager)
+    {
+        Console.Write("Enter the negative habit name: ");
+        string negativeGoalName = Console.ReadLine();
+
+        Console.Write("Enter the penalty points for the bad habit: ");
+        if (int.TryParse(Console.ReadLine(), out int penaltyPoints))
+        {
+            goalManager.AddGoal(new NegativeGoal(negativeGoalName, penaltyPoints));
+        }
+        else
+        {
+            Console.WriteLine("Invalid input for penalty points. Negative goal not added.");
         }
     }
 
