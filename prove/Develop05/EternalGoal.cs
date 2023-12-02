@@ -9,6 +9,6 @@ public class EternalGoal : Goal
 
     public override string GetProgress()
     {
-        return "[ ]";
+        return "";
     }
 }

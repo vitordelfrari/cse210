@@ -31,4 +31,10 @@ public class ChecklistGoal : Goal
     {
         return $"Completed {CompletedCount}/{TargetCount} times";
     }
+
+    // Add this method to properly serialize ChecklistGoal
+    public override string ToString()
+    {
+        return $"{base.ToString()},{CompletedCount},{TargetCount},{BonusPoints}";
+    }
 }
