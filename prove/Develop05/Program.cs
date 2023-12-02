@@ -159,7 +159,7 @@ class Program
         }
     }
 
-
+//negative goal tracker was included in the program
     static void CreateNegativeGoal(GoalManager goalManager)
     {
         Console.Write("Enter the negative habit name: ");
