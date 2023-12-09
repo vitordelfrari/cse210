@@ -1,7 +1,7 @@
 class Activity
 {
     private DateTime date;
-    private int durationMinutes;
+    protected int durationMinutes; // Change from private to protected
 
     public Activity(DateTime date, int durationMinutes)
     {
